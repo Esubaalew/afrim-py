@@ -224,36 +224,6 @@ async def main():
 # asyncio.run(main())
 ```
 
-## API Reference
-
-### `Preprocessor`
-
-```python
-class Preprocessor:
-    def __init__(self, data: Dict[str, str], buffer_size: int) -> None: ...
-    def process(self, key: str, state: str) -> bool: ...
-    def commit(self, text: str) -> None: ...
-    def pop_queue(self) -> Any: ...
-    def get_input(self) -> str: ...
-    def clear_queue(self) -> None: ...
-```
-
-### `Translator`
-
-```python
-class Translator:
-    def __init__(self, dictionary: Dict[str, List[str]], auto_commit: bool) -> None: ...
-    def translate(self, input: str) -> List[Dict]: ...
-    # Available when rhai feature is enabled:
-    def register(self, name: str, source: str) -> None: ...
-    def unregister(self, name: str) -> None: ...
-```
-
-### `convert_toml_to_json`
-
-```python
-def convert_toml_to_json(content: str) -> str: ...
-```
 
 ## Testing
 
