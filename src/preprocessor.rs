@@ -1,11 +1,10 @@
 #![deny(missing_docs)]
 /// Python binding of the afrim preprocessor.
-
 use afrim_preprocessor::Preprocessor as NativePreprocessor;
 use pyo3::prelude::*;
+use pythonize::pythonize;
 use serde_json::Value;
 use std::collections::HashMap;
-use pythonize::pythonize;
 
 /// Core structure of the preprocessor.
 ///
@@ -37,7 +36,7 @@ impl Preprocessor {
     /// Process a keyboard event (key string, state "keydown"|"keyup")
     fn process(&mut self, key: &str, state: &str) -> PyResult<bool> {
         let event = crate::preprocessor::utils::deserialize_event(key, state)
-            .map_err(|err| pyo3::exceptions::PyValueError::new_err(err))?;
+            .map_err(pyo3::exceptions::PyValueError::new_err)?;
         let (changed, _) = self.engine.process(event);
         Ok(changed)
     }

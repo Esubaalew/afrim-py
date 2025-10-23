@@ -1,0 +1,29 @@
+[project]
+name = "afrim-py"
+version = "0.1.0"
+description = "Python binding of the afrim."
+readme = "README.md"
+license = "MIT"
+keywords = ["afrim", "ime", "typing"]
+authors = [
+	{ name = "Esubalew Chekol" }
+]
+maintainers = [
+	{ name = "Brady Fomegne", email = "brady.fomegne@outlook.com" },
+]
+repository = "github.com/fodydev/afrim-py"
+requires-python = ">=3.8,<3.13"
+dependencies = []
+
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+    "ruff>=0.12.4",
+]

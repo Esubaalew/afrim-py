@@ -1,13 +1,13 @@
 #![deny(missing_docs)]
-/// Python binding of the afrim translator.
+//! Python binding of the afrim translator.
 
 #[cfg(feature = "rhai")]
 use afrim_translator::Engine;
 use afrim_translator::Translator as NativeTranslator;
 use indexmap::IndexMap;
 use pyo3::prelude::*;
-use std::collections::HashMap;
 use pythonize::pythonize;
+use std::collections::HashMap;
 
 /// Core structure of the translator
 #[pyclass(unsendable)]
@@ -54,7 +54,7 @@ impl Translator {
 
     /// Translate input — returns a serde_json::Value that maps nicely to Python types
     fn translate(&self, py: Python, input: &str) -> PyResult<PyObject> {
-        let value = serde_json::to_value(&self.engine.translate(input)).unwrap();
+        let value = serde_json::to_value(self.engine.translate(input)).unwrap();
         pythonize(py, &value).map_err(|e| pyo3::exceptions::PyValueError::new_err(e.to_string()))
     }
 }
