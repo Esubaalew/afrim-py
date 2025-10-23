@@ -8,10 +8,12 @@
     <img alt="Python" src="https://img.shields.io/badge/python-3.8+-blue.svg"/>
     <img alt="Rust" src="https://img.shields.io/badge/rust-1.70+-orange.svg"/>
     <img alt="License" src="https://img.shields.io/badge/license-MIT-green.svg"/>
+    <a href="https://github.com/fodydev/afrim/blob/main/CHANGELOG.md"><img alt="Changelog" src="https://img.shields.io/badge/Keep%20a%20Changelog--555.svg?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiNmMTVkMzAiIHZpZXdCb3g9IjAgMCAxODcgMTg1Ij48cGF0aCBkPSJNNjIgN2MtMTUgMy0yOCAxMC0zNyAyMmExMjIgMTIyIDAgMDAtMTggOTEgNzQgNzQgMCAwMDE2IDM4YzYgOSAxNCAxNSAyNCAxOGE4OSA4OSAwIDAwMjQgNCA0NSA0NSAwIDAwNiAwbDMtMSAxMy0xYTE1OCAxNTggMCAwMDU1LTE3IDYzIDYzIDAgMDAzNS01MiAzNCAzNCAwIDAwLTEtNWMtMy0xOC05LTMzLTE5LTQ3LTEyLTE3LTI0LTI4LTM4LTM3QTg1IDg1IDAgMDA2MiA3em0zMCA4YzIwIDQgMzggMTQgNTMgMzEgMTcgMTggMjYgMzcgMjkgNTh2MTJjLTMgMTctMTMgMzAtMjggMzhhMTU1IDE1NSAwIDAxLTUzIDE2bC0xMyAyaC0xYTUxIDUxIDAgMDEtMTItMWwtMTctMmMtMTMtNC0yMy0xMi0yOS0yNy01LTEyLTgtMjQtOC0zOWExMzMgMTMzIDAgMDE4LTUwYzUtMTMgMTEtMjYgMjYtMzMgMTQtNyAyOS05IDQ1LTV6TTQwIDQ1YTk0IDk0IDAgMDAtMTcgNTQgNzUgNzUgMCAwMDYgMzJjOCAxOSAyMiAzMSA0MiAzMiAyMSAyIDQxLTIgNjAtMTRhNjAgNjAgMCAwMDIxLTE5IDUzIDUzIDAgMDA5LTI5YzAtMTYtOC0zMy0yMy01MWE0NyA0NyAwIDAwLTUtNWMtMjMtMjAtNDUtMjYtNjctMTgtMTIgNC0yMCA5LTI2IDE4em0xMDggNzZhNTAgNTAgMCAwMS0yMSAyMmMtMTcgOS0zMiAxMy00OCAxMy0xMSAwLTIxLTMtMzAtOS01LTMtOS05LTEzLTE2YTgxIDgxIDAgMDEtNi0zMiA5NCA5NCAwIDAxOC0zNSA5MCA5MCAwIDAxNi0xMmwxLTJjNS05IDEzLTEzIDIzLTE2IDE2LTUgMzItMyA1MCA5IDEzIDggMjMgMjAgMzAgMzYgNyAxNSA3IDI5IDAgNDJ6bS00My03M2MtMTctOC0zMy02LTQ2IDUtMTAgOC0xNiAyMC0xOSAzN2E1NCA1NCAwIDAwNSAzNGM3IDE1IDIwIDIzIDM3IDIyIDIyLTEgMzgtOSA0OC0yNGE0MSA0MSAwIDAwOC0yNCA0MyA0MyAwIDAwLTEtMTJjLTYtMTgtMTYtMzEtMzItMzh6bS0yMyA5MWgtMWMtNyAwLTE0LTItMjEtN2EyNyAyNyAwIDAxLTEwLTEzIDU3IDU3IDAgMDEtNC0yMCA2MyA2MyAwIDAxNi0yNWM1LTEyIDEyLTE5IDI0LTIxIDktMyAxOC0yIDI3IDIgMTQgNiAyMyAxOCAyNyAzM3MtMiAzMS0xNiA0MGMtMTEgOC0yMSAxMS0zMiAxMXptMS0zNHYxNGgtOFY2OGg4djI4bDEwLTEwaDExbC0xNCAxNSAxNyAxOEg5NnoiLz48L3N2Zz4K"/></a>
+
   </p>
 
   <h3>
-    <a href="https://github.com/esubaalew/afrim-py">Repository</a>
+    <a href="https://github.com/fodydev/afrim-py">Repository</a>
   </h3>
 
   <sub>Built with 🦀🐍 by <a href="https://github.com/esubaalew">@esubaalew</a></sub>
@@ -33,6 +35,12 @@ maturin develop
 maturin build --release
 ```
 
+## Build with [`uv`](https://docs.astral.sh/uv/getting-started/installation/)
+
+```bash
+uv build
+```
+
 ## 🔋 Features Included
 
 * **Preprocessor** - Advanced key sequence processing and input transformation
@@ -42,13 +50,21 @@ maturin build --release
 * **Rhai Scripting** - Dynamic translation scripts (when `rhai` feature is enabled)
 * **String Similarity** - Fuzzy matching with `strsim` feature
 
-## Installation
+### Build requirements
 
-### From Source
+- Rust 1.70+
+- Cargo
+
+- Python 3.8+ and and [maturin](https://www.maturin.rs/installation.html)
+- [uv](https://docs.astral.sh/uv/getting-started/installation/) *(optional)*
+
+## Build from source
+
+**Using maturin**
 
 ```bash
 # Clone the repository
-git clone https://github.com/esubaalew/afrim-py.git
+git clone https://github.com/fodydev/afrim-py.git
 cd afrim-py
 
 # Create virtual environment
@@ -59,18 +75,22 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 maturin develop
 ```
 
-### Requirements
+**Using uv**
 
-- Python 3.8+
-- Rust 1.70+
-- Cargo and maturin
+```bash
+# Clone the repository
+git clone https://github.com/fodydev/afrim-py.git
+cd afrim-py
+
+uv build
+```
 
 ## Usage
 
 ### Basic Example
 
 ```python
-from afrim_py import Preprocessor, Translator, convert_toml_to_json
+from afrim_py import Preprocessor, Translator, Config
 
 # Configure the preprocessor with key mappings
 preprocessor_data = {
@@ -117,30 +137,33 @@ while True:
 ### TOML Configuration
 
 ```python
-from afrim_py import convert_toml_to_json
+from afrim_py import Config
 import json
 
-# TOML configuration
-toml_config = '''
-[preprocessor]
-a1 = "à"
-e1 = "é"
-hello = "hi"
-
-[translator.greetings]
-values = ["hello", "hi", "hey"]
-
-[translator.world]
-values = ["earth", "globe", "planet"]
+# Configuration file `config.toml`
 '''
+[core]
+buffer_size = 64
+auto_capitalize = false
+auto_commit = false
+page_size = 10
 
-# Convert TOML to JSON
-config_json = convert_toml_to_json(toml_config)
-config = json.loads(config_json)
+[data]
+a1 = "à"
+e2 = "é"
+
+[translators]
+datetime = { path = "./scripts/datetime.toml" }
+
+[translation]
+hi = 'hello'
+'''
+config = Config('config.toml')
 
 # Use the configuration
-preprocessor = Preprocessor(config["preprocessor"], 64)
-translator_dict = {k: v["values"] for k, v in config["translator"].items()}
+preprocessor_data = config.extract_data()
+preprocessor = Preprocessor(preprocessor_data, 64)
+translator_dict = config.extract_translation()
 translator = Translator(translator_dict, True)
 ```
 
@@ -151,9 +174,10 @@ import asyncio
 from afrim_py import Preprocessor, Translator
 
 class InputMethodEngine:
-    def __init__(self, preprocessor_data, translator_dict):
-        self.preprocessor = Preprocessor(preprocessor_data, 64)
-        self.translator = Translator(translator_dict, True)
+    def __init__(self, config_file: str):
+        config = Config(config_file)
+        self.preprocessor = Preprocessor(config.extract_data(), 64)
+        self.translator = Translator(config.extract_translation(), True)
         self.running = False
     
     async def process_commands(self):
