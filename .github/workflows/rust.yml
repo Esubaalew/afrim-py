@@ -12,6 +12,7 @@ env:
 
 jobs:
   rust-build:
+    name: Check lint and build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
