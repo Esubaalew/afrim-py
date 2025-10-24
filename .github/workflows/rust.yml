@@ -1,0 +1,43 @@
+name: Rust CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  rust-build:
+    name: Check lint and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
+        with:
+          # To only cache runs from `master`
+          save-if: ${{ github.ref == 'refs/heads/main' }}
+
+      - name: Add components
+        run: rustup component add clippy rustfmt
+
+      - name: Rustfmt
+        run: cargo fmt -- --check
+
+      - name: Clippy
+        run: cargo clippy --all-targets
+       
+      - name: Build (minimal)
+        run: |
+          cargo build --no-default-features --verbose
+       
+      - name: Build (normal)
+        run: |
+          cargo build --verbose
+
+      - name: Build (full)
+        run: |
+          cargo build --all-features --verbose

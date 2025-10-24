@@ -1,7 +1,7 @@
 """Tests for Translator functionality."""
 
 import pytest
-from afrim_py import Translator
+from afrim_py import Translator, is_rhai_feature_enabled
 
 
 class TestTranslator:
@@ -11,7 +11,7 @@ class TestTranslator:
         """Test basic Translator initialization."""
         dictionary = {"hello": ["hi", "hey"], "world": ["earth", "globe"]}
         auto_commit = True
-        
+
         translator = Translator(dictionary, auto_commit)
         assert translator is not None
 
@@ -30,11 +30,11 @@ class TestTranslator:
         """Test basic translation functionality."""
         dictionary = {"hello": ["hi", "hey"], "world": ["earth"]}
         translator = Translator(dictionary, True)
-        
+
         result = translator.translate("hello")
         assert isinstance(result, list)
         assert len(result) > 0
-        
+
         # Check the structure of the result
         translation = result[0]
         assert isinstance(translation, dict)
@@ -45,11 +45,11 @@ class TestTranslator:
         """Test translation with single option."""
         dictionary = {"world": ["earth"]}
         translator = Translator(dictionary, True)
-        
+
         result = translator.translate("world")
         assert isinstance(result, list)
         assert len(result) > 0
-        
+
         translation = result[0]
         assert translation["texts"] == ["earth"]
 
@@ -57,7 +57,7 @@ class TestTranslator:
         """Test translation of non-existent key."""
         dictionary = {"hello": ["hi"]}
         translator = Translator(dictionary, True)
-        
+
         result = translator.translate("nonexistent")
         assert isinstance(result, list)
         # Should return empty list or some default behavior
@@ -66,7 +66,7 @@ class TestTranslator:
         """Test translation of empty string."""
         dictionary = {"hello": ["hi"]}
         translator = Translator(dictionary, True)
-        
+
         result = translator.translate("")
         assert isinstance(result, list)
 
@@ -74,16 +74,16 @@ class TestTranslator:
         """Test translation with multiple options."""
         dictionary = {
             "hello": ["hi", "hey", "hello there"],
-            "bye": ["goodbye", "farewell", "see you"]
+            "bye": ["goodbye", "farewell", "see you"],
         }
         translator = Translator(dictionary, False)
-        
+
         # Test hello
         result_hello = translator.translate("hello")
         assert isinstance(result_hello, list)
         if len(result_hello) > 0:
             assert result_hello[0]["texts"] == ["hi", "hey", "hello there"]
-        
+
         # Test bye
         result_bye = translator.translate("bye")
         assert isinstance(result_bye, list)
@@ -95,14 +95,14 @@ class TestTranslator:
         dictionary = {
             "café": ["coffee", "☕"],
             "naïve": ["naive"],
-            "🚀": ["rocket", "spaceship"]
+            "🚀": ["rocket", "spaceship"],
         }
         translator = Translator(dictionary, True)
-        
+
         # Test Unicode key
         result = translator.translate("café")
         assert isinstance(result, list)
-        
+
         # Test emoji key
         result_emoji = translator.translate("🚀")
         assert isinstance(result_emoji, list)
@@ -117,10 +117,10 @@ class TestTranslator:
             "world": ["earth", "globe", "planet"],
             "programming": ["coding", "development"],
             "python": ["snake", "language"],
-            "rust": ["metal", "language", "oxidation"]
+            "rust": ["metal", "language", "oxidation"],
         }
         translator = Translator(dictionary, True)
-        
+
         # Test various keys
         test_keys = ["a", "hello", "programming", "rust"]
         for key in test_keys:
@@ -129,18 +129,14 @@ class TestTranslator:
 
     def test_case_sensitivity(self):
         """Test case sensitivity in translation."""
-        dictionary = {
-            "hello": ["hi"],
-            "Hello": ["Hi"],
-            "HELLO": ["HI"]
-        }
+        dictionary = {"hello": ["hi"], "Hello": ["Hi"], "HELLO": ["HI"]}
         translator = Translator(dictionary, True)
-        
+
         # Test different cases
         result_lower = translator.translate("hello")
         result_title = translator.translate("Hello")
         result_upper = translator.translate("HELLO")
-        
+
         assert isinstance(result_lower, list)
         assert isinstance(result_title, list)
         assert isinstance(result_upper, list)
@@ -153,10 +149,10 @@ class TestTranslator:
             "wow...": ["amazing"],
             "test@domain": ["email"],
             "key-value": ["pair"],
-            "under_score": ["underscore"]
+            "under_score": ["underscore"],
         }
         translator = Translator(dictionary, False)
-        
+
         for key in dictionary.keys():
             result = translator.translate(key)
             assert isinstance(result, list)
@@ -167,13 +163,13 @@ class TestTranslator:
             "123": ["numbers"],
             "42": ["answer"],
             "3.14": ["pi"],
-            "0": ["zero", "null"]
+            "0": ["zero", "null"],
         }
         translator = Translator(dictionary, True)
-        
+
         result = translator.translate("123")
         assert isinstance(result, list)
-        
+
         result_pi = translator.translate("3.14")
         assert isinstance(result_pi, list)
 
@@ -181,15 +177,12 @@ class TestTranslator:
         """Test translation with long keys and values."""
         long_key = "a" * 100
         long_value = "b" * 200
-        dictionary = {
-            long_key: [long_value, "short"],
-            "short": [long_value]
-        }
+        dictionary = {long_key: [long_value, "short"], "short": [long_value]}
         translator = Translator(dictionary, True)
-        
+
         result = translator.translate(long_key)
         assert isinstance(result, list)
-        
+
         result_short = translator.translate("short")
         assert isinstance(result_short, list)
 
@@ -197,14 +190,14 @@ class TestTranslator:
         """Test creating multiple translator instances."""
         dict1 = {"hello": ["hi"], "world": ["earth"]}
         dict2 = {"bonjour": ["hello"], "monde": ["world"]}
-        
+
         translator1 = Translator(dict1, True)
         translator2 = Translator(dict2, False)
-        
+
         # Both should work independently
         result1 = translator1.translate("hello")
         result2 = translator2.translate("bonjour")
-        
+
         assert isinstance(result1, list)
         assert isinstance(result2, list)
 
@@ -212,19 +205,19 @@ class TestTranslator:
         """Test the structure of translation results."""
         dictionary = {"test": ["result1", "result2"]}
         translator = Translator(dictionary, True)
-        
+
         result = translator.translate("test")
         assert isinstance(result, list)
-        
+
         if len(result) > 0:
             translation = result[0]
             assert isinstance(translation, dict)
-            
+
             # Check expected keys in translation result
             expected_keys = ["texts", "code"]
             for key in expected_keys:
                 assert key in translation
-            
+
             # Check texts structure
             assert isinstance(translation["texts"], list)
             assert translation["texts"] == ["result1", "result2"]
@@ -232,34 +225,29 @@ class TestTranslator:
     def test_edge_cases(self):
         """Test edge cases and boundary conditions."""
         # Empty values in dictionary
-        dictionary = {
-            "empty": [],
-            "normal": ["value"],
-            "single": ["one"]
-        }
+        dictionary = {"empty": [], "normal": ["value"], "single": ["one"]}
         translator = Translator(dictionary, True)
-        
+
         # Test empty value list
         result_empty = translator.translate("empty")
         assert isinstance(result_empty, list)
-        
+
         # Test normal case
         result_normal = translator.translate("normal")
         assert isinstance(result_normal, list)
 
-    @pytest.mark.skipif(True, reason="Rhai feature may not be enabled")
-    def test_register_unregister_functionality(self):
-        """Test register and unregister functionality (if rhai feature is enabled)."""
+    @pytest.mark.skipif(
+        not is_rhai_feature_enabled(), reason="Rhai feature not be enabled"
+    )
+    def test_register_unregister_script(self):
+        """Test register and unregister script (if rhai feature is enabled)."""
+
         dictionary = {"test": ["result"]}
         translator = Translator(dictionary, True)
-        
+
         # Try to register a script (this may not work if rhai feature is disabled)
-        try:
-            translator.register("test_script", "fn main() { }")
-            translator.unregister("test_script")
-        except AttributeError:
-            # Methods don't exist if rhai feature is not enabled
-            pytest.skip("Rhai feature not enabled")
+        translator.register("test_script", "fn main(input) { [input] }")
+        translator.unregister("test_script")
 
     def test_whitespace_handling(self):
         """Test translation with whitespace in keys and values."""
@@ -267,10 +255,10 @@ class TestTranslator:
             " hello ": ["hi"],
             "hello world": ["hi earth"],
             "\ttest\t": ["result"],
-            "\n\r": ["newlines"]
+            "\n\r": ["newlines"],
         }
         translator = Translator(dictionary, True)
-        
+
         for key in dictionary.keys():
             result = translator.translate(key)
             assert isinstance(result, list)
