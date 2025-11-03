@@ -1,6 +1,7 @@
 #![deny(missing_docs)]
 //! Python binding of the afrim translator.
 
+use crate::config::Config;
 #[cfg(feature = "rhai")]
 use afrim_translator::Engine;
 use afrim_translator::Translator as NativeTranslator;
@@ -43,6 +44,22 @@ impl Translator {
             ))
         })?;
         self.engine.register(name, ast);
+        Ok(())
+    }
+
+    /// Register Rhai translators from a config object (requires `rhai` feature)
+    #[cfg(feature = "rhai")]
+    fn register_from_config(&mut self, config: Config) -> PyResult<()> {
+        // Extracts the translators from the configuration.
+        let translators = config.engine.extract_translators().map_err(|err| {
+            pyo3::exceptions::PyValueError::new_err(format!(
+                "Failed to load the translators`.\nCaused by:\n\t{err}"
+            ))
+        })?;
+
+        translators
+            .into_iter()
+            .for_each(|(name, ast)| self.engine.register(name, ast));
         Ok(())
     }
 
