@@ -40,24 +40,6 @@ class TestConfig:
         with pytest.raises(ValueError, match="Failed to load config file"):
             Config(DATA_DIR + "/invalid_translator.toml")
 
-        #
-        config = Config(DATA_DIR + "/config_sample.toml")
-        assert isinstance(config.extract_translators(), dict)
-
-        # no translators
-        config = Config(DATA_DIR + "/blank_sample.toml")
-        assert config.extract_translators() == {}
-
-        # invalid script
-        config = Config(DATA_DIR + "/bad_script2.toml")
-        with pytest.raises(ValueError, match="Failed to load the translators"):
-            config.extract_translators()
-
-        # script not found
-        config = Config(DATA_DIR + "/bad_script.toml")
-        with pytest.raises(ValueError, match="Failed to load the translators"):
-            config.extract_translators()
-
     def test_config_file_with_translation(self):
         config = Config(DATA_DIR + "/config_sample.toml")
         assert isinstance(config.extract_translation(), dict)

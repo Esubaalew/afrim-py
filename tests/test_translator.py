@@ -1,7 +1,12 @@
 """Tests for Translator functionality."""
 
 import pytest
-from afrim_py import Translator, is_rhai_feature_enabled
+from afrim_py import Translator, Config, is_rhai_feature_enabled
+from pathlib import Path
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = (BASE_DIR / "data").as_posix()
 
 
 class TestTranslator:
@@ -248,6 +253,26 @@ class TestTranslator:
         # Try to register a script (this may not work if rhai feature is disabled)
         translator.register("test_script", "fn main(input) { [input] }")
         translator.unregister("test_script")
+
+    def test_register_from_config(self):
+        translator = Translator({}, True)
+
+        config = Config(DATA_DIR + "/config_sample.toml")
+        translator.register_from_config(config)
+
+        # no translators
+        config = Config(DATA_DIR + "/blank_sample.toml")
+        translator.register_from_config(config)
+
+        # invalid script
+        config = Config(DATA_DIR + "/bad_script2.toml")
+        with pytest.raises(ValueError, match="Failed to load the translators"):
+            translator.register_from_config(config)
+
+        # script not found
+        config = Config(DATA_DIR + "/bad_script.toml")
+        with pytest.raises(ValueError, match="Failed to load the translators"):
+            translator.register_from_config(config)
 
     def test_whitespace_handling(self):
         """Test translation with whitespace in keys and values."""
